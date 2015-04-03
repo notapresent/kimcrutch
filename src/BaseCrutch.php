@@ -32,9 +32,9 @@ EOB;
     public function fetch_html($url) {
         $html = file_get_contents($url);
         if($this->site_charset != 'utf-8') {
+            $html = str_ireplace("charset={$this->site_charset}","charset=utf-8", $html);
             $html = mb_convert_encoding($html, 'utf-8', $this->site_charset);
         }
-
         return $html;
     }
 
