@@ -1,0 +1,13 @@
+{
+    "name": "notapresent/kimcrutch",
+    "description": "Kimono helper script",
+    "authors": [
+        {
+            "name": "notapresent",
+            "email": "notapresent@gmail.com"
+        }
+    ],
+    "require": {
+        "querypath/QueryPath": ">=3.0.0"
+    }
+}
