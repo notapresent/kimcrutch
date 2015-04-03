@@ -39,7 +39,9 @@ EOB;
     }
 
     protected function make_url($ourl) {
-        $alias = strtolower(substr(get_class($this), 0, -6));
+        $fqcn = get_class($this);
+        $classname = trim(substr($fqcn, strrpos($fqcn, '\\')), '\\');
+        $alias = strtolower(substr($classname, 0, -6));
         $self = "http://{$_SERVER['SERVER_NAME']}{$_SERVER['SCRIPT_NAME']}";
         return "{$self}?alias={$alias}&action=detail&url=" . urlencode($ourl);
     }
