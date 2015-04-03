@@ -1,6 +1,7 @@
 <?php
+namespace KimonoCrutch;
 
-abstract class BaseCrutch{
+abstract class BaseCrutch {
     protected $doc_template = <<<EOB
 <html>
 <head><meta http-equiv="Content-Type" content="text/html;charset=utf-8"/></head>
