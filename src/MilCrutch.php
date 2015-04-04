@@ -32,6 +32,10 @@ class MilCrutch extends BaseCrutch {
         if(mb_strpos($fulltext, 'Метки:')) {
             $fulltext = mb_substr($fulltext, 0, mb_strpos($fulltext, 'Метки:'));
         }
+        if(mb_strpos($fulltext, 'Идет получение информации...')) {
+            $fulltext = mb_substr($fulltext, 0, mb_strpos($fulltext, 'Идет получение информации...'));
+        }
+        
         return array(
             'title' => $title,
             'fulltext' =>  $fulltext
