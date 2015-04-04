@@ -15,7 +15,7 @@ EOB;
         $links = $this->get_links($html);
         $body = '';
         foreach($links as $link) {
-            $url = $this->make_url($link['url']);
+            $url = htmlentities($this->make_url($link['url']));
             $body .= "<li><a href=\"{$url}\">{$link['title']}</a></li>\n";
         }
         return str_replace('{#BODY#}', "<ul>\n{$body}\n</ul>", $this->doc_template);
