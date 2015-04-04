@@ -30,11 +30,13 @@ EOB;
     }
 
     public function fetch_html($url) {
-        $html = file_get_contents($url);
+        $html = $this->fetch_and_gunzip($url);
+        
         if($this->site_charset != 'utf-8') {
             $html = str_ireplace("charset={$this->site_charset}","charset=utf-8", $html);
             $html = mb_convert_encoding($html, 'utf-8', $this->site_charset);
         }
+        
         return $html;
     }
 
@@ -44,6 +46,37 @@ EOB;
         $alias = strtolower(substr($classname, 0, -6));
         $self = "http://{$_SERVER['SERVER_NAME']}{$_SERVER['SCRIPT_NAME']}";
         return "{$self}?alias={$alias}&action=detail&url=" . urlencode($ourl);
+    }
+    
+    protected function fetch_and_gunzip($url) {
+        $headers = array(
+            'Accept: text/html',
+            'Accept-Encoding: gzip, deflate',
+            'Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2',
+            'Cache-Control: max-age=0',
+            'Connection: close',
+            'User-Agent: Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko)'        
+        );
+        
+        $opts = array(
+            'http' => array(
+                'method' => "GET",
+                'header' => implode("\r\n", $headers)
+            )
+        );
+     
+        $context = stream_context_create($opts);
+        $content = file_get_contents($url ,false, $context); 
+         
+        //If http response header mentions that content is gzipped, then uncompress it
+        foreach($http_response_header as $c => $h) {
+            if(stristr($h, 'content-encoding') and stristr($h, 'gzip')) {
+                //Now lets uncompress the compressed data
+                $content = gzinflate( substr($content,10,-8) ) . '<!-- gunzipped -->';
+            }
+        }
+         
+        return $content;        
     }
 
     abstract protected function get_links($html);
