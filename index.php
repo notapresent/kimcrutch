@@ -7,6 +7,7 @@ $classname = '\\KimonoCrutch\\' . ucfirst($alias) . 'Crutch';
 $crutch = new $classname;
 $action = isset($_GET['action']) ? $_GET['action'] : 'index';
 
+header('content-type: text/html; charset=utf-8');
 if($action == 'index') {
     echo $crutch->index();
 } else {
